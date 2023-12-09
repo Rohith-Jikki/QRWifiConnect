@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">QRWifiConnect</string>
+    <string name="main_frag_title">Add device</string>
+    <string name="scanner_frag_title">Wifi Setup</string>
+    <string name="scan_desc">Scanning devices</string>
+    <string name="scan_hint">Scan the QR code on the device to add</string>
+    <string name="connected_frag_title">Not Connected</string>
+    <string name="connect_status">Connected</string>
+    <string name="fragment_button">Continue</string>
+    <string name="wifiIcon">WifiIcon</string>
+    <string name="qr_text">QR Code</string>
+    <string name="qr_text_hint">Scan the QR on the device to add</string>
+    <string name="connect_frag_hint">Configure your device</string>
+    <string name="device_title">Device Name</string>
+</resources>

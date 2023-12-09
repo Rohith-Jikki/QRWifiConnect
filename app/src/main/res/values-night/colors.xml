@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey">#f0eef6</color>
+    <color name="edit_text">#E8EDF1</color>
+    <color name="text">#ffff</color>
+    <color name="statusBar">#1C1B1F</color>
+    <color name="button">#6750A4</color>
+    <color name="card_background">#28282B</color>
+</resources>
