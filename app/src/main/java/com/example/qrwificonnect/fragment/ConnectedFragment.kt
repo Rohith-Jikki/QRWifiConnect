@@ -59,14 +59,8 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
 
         }
         binding.continueButton.setOnClickListener {
-            if(binding.connectedFragTitle.text == "Not Connected"){
-                Toast.makeText(requireContext(), "Couldn't Connect", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_connectedFragment_to_mainFragment)
-            }
-            else{
                 Toast.makeText(requireContext(), "Connected", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_connectedFragment_to_mainFragment)
-            }
         }
     }
 
@@ -84,9 +78,6 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
         connectManager.requestNetwork(request, object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: android.net.Network) {
                 super.onAvailable(network)
-                binding.connectedFragTitle.text = "Connected"
-                binding.deviceNameText.setText(ssid)
-                binding.deviceNameText.isEnabled = false
                 Log.d("WifiConnect", "Connected to Wi-Fi network")
 
                 // Perform actions when connected
@@ -112,6 +103,7 @@ private fun connectToWifiLower(ssid:String, password: String){
     val networkId = wifiManager.addNetwork(conf)
     wifiManager.enableNetwork(networkId, true)
     wifiManager.reconnect()
+
 
 }
 

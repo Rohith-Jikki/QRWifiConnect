@@ -5,7 +5,8 @@
     <color name="grey">#f0eef6</color>
     <color name="edit_text">#E8EDF1</color>
     <color name="text">#000000</color>
-<color name="statusBar">#ffff</color>
+<color name="statusBar">#0000FFFF</color>
+
     <color name="button">#bb86fc</color>
     <color name="card_background">#ffff</color>
 </resources>
