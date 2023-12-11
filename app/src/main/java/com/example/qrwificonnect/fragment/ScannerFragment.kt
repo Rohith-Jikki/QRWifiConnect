@@ -26,6 +26,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentScannerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,6 +69,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
                     }
                 }
                 val action = ScannerFragmentDirections.actionScannerFragmentToConnectedFragment(ssid, password)
+                barcodeView.barcodeView.cameraSettings.isAutoFocusEnabled = false
                 barcodeView.pause()
                 findNavController().navigate(action)
 

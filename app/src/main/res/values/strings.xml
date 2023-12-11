@@ -14,4 +14,6 @@
     <string name="device_title">Device Name</string>
     <string name="ssid_title">WIFI SSID</string>
     <string name="pass_title">Wifi Password</string>
+    <string name="turn_on">Turn On</string>
+    <string name="turn_off">Turn Off</string>
 </resources>

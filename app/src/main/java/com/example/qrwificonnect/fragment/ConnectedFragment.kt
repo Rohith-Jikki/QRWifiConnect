@@ -5,12 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.net.NetworkSpecifier
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
-import android.net.wifi.WifiNetworkSpecifier
 import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import android.os.Bundle
@@ -71,30 +67,66 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
         }
         binding.ssidValue.setText( args.argSsid)
         binding.passValue.setText(args.argPassword)
-
-        binding.continueButton.setOnClickListener {
-            sendApiRequest(deviceName = binding.deviceNameText.text.toString())
+        val apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface::class.java)
+        binding.onBtn.setOnClickListener {
+            sendApiRequestOn(deviceName = binding.deviceNameText.text.toString())
+        }
+        binding.offBtn.setOnClickListener {
+            sendApiRequestOff(deviceName = binding.deviceNameText.text.toString())
         }
     }
 
-    private fun sendApiRequest(deviceName:String){
+    private fun sendApiRequestOn(deviceName:String){
         val apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface::class.java)
-        val call: Call<Device> = apiInterface.getData(deviceName, args.argSsid, args.argPassword)
+        val call: Call<Device> = apiInterface.turnOn(deviceName, args.argSsid, args.argPassword)
         call.enqueue(object: Callback<Device>{
             override fun onResponse(call: Call<Device>, response: Response<Device>) {
-                Toast.makeText(requireContext(), "Received", Toast.LENGTH_SHORT).show()
                 if(response.body() != null) {
+                    Toast.makeText(requireContext(), "Received", Toast.LENGTH_SHORT).show()
                     Log.d("onResponse", response.code().toString())
                     Log.d("Device Name", response.body()!!.DeviceName)
                     Log.d("SSID", response.body()!!.SSID)
                     Log.d("Password", response.body()!!.Password)
+                }
+                else{
+                    Toast.makeText(requireContext(), "Received empty", Toast.LENGTH_SHORT).show()
+                    Log.d("rawResponse",response.raw().toString())
                 }
             }
 
             override fun onFailure(call: Call<Device>, t: Throwable) {
                 if(t is IOException){
                     Toast.makeText(requireContext(), "Network Problem", Toast.LENGTH_SHORT).show()
-                    Log.d("Error_TAG", "onFailure: Error: " + t.message);
+                    Log.d("Error_TAG", "onFailure: Error: " + t.message)
+                }
+                else{
+                    Toast.makeText(requireContext(), "Big Problem", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+    private fun sendApiRequestOff(deviceName:String){
+        val apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface::class.java)
+        val call: Call<Device> = apiInterface.turnOff(deviceName, args.argSsid, args.argPassword)
+        call.enqueue(object: Callback<Device>{
+            override fun onResponse(call: Call<Device>, response: Response<Device>) {
+                if(response.body() != null) {
+                    Toast.makeText(requireContext(), "Received", Toast.LENGTH_SHORT).show()
+                    Log.d("onResponse", response.code().toString())
+                    Log.d("Device Name", response.body()!!.DeviceName)
+                    Log.d("SSID", response.body()!!.SSID)
+                    Log.d("Password", response.body()!!.Password)
+                }
+                else{
+                    Toast.makeText(requireContext(), "Received empty", Toast.LENGTH_SHORT).show()
+                    Log.d("rawResponse",response.raw().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Device>, t: Throwable) {
+                if(t is IOException){
+                    Toast.makeText(requireContext(), "Network Problem", Toast.LENGTH_SHORT).show()
+                    Log.d("Error_TAG", "onFailure: Error: " + t.message)
                 }
                 else{
                     Toast.makeText(requireContext(), "Big Problem", Toast.LENGTH_SHORT).show()
@@ -111,15 +143,15 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
             .setWpa2Passphrase(password)
             .setIsAppInteractionRequired(true)
             .build()
-        val specifier: NetworkSpecifier = WifiNetworkSpecifier.Builder()
-            .setSsid(ssid)
-            .setWpa2Passphrase(password)
-            .build()
-        val request: NetworkRequest = NetworkRequest.Builder()
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .setNetworkSpecifier(specifier)
-            .build()
+//        val specifier: NetworkSpecifier = WifiNetworkSpecifier.Builder()
+//            .setSsid(ssid)
+//            .setWpa2Passphrase(password)
+//            .build()
+//        val request: NetworkRequest = NetworkRequest.Builder()
+//            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+//            .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+//            .setNetworkSpecifier(specifier)
+//            .build()
         wifiManager.removeNetworkSuggestions(listOf(suggestion))
         wifiManager.addNetworkSuggestions(listOf(suggestion))
         val intentFilter = IntentFilter(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)
