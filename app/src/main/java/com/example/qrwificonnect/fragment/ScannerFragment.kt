@@ -19,6 +19,7 @@ import com.journeyapps.barcodescanner.camera.CameraSettings
 class ScannerFragment : Fragment(R.layout.fragment_scanner) {
     private var _binding: FragmentScannerBinding? = null
     private val binding get() = _binding!!
+    private lateinit var barcodeView:DecoratedBarcodeView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +35,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
         super.onViewCreated(view, savedInstanceState)
         val cardViewContainer: CardView = binding.cameraSurface
         // Create DecoratedBarcodeView and add it to CardView
-        val barcodeView = DecoratedBarcodeView(requireContext())
+        barcodeView = DecoratedBarcodeView(requireContext())
         cardViewContainer.addView(barcodeView)
         val formats = listOf(BarcodeFormat.QR_CODE)
         // Apply settings to the DecoratedBarcodeView
@@ -67,6 +68,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
                     }
                 }
                 val action = ScannerFragmentDirections.actionScannerFragmentToConnectedFragment(ssid, password)
+                barcodeView.pause()
                 findNavController().navigate(action)
 
             }
@@ -86,7 +88,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
         var temp = ""
         var counter = 0
         val lengths = content.length
-        println(lengths)
+
 
         while (counter < lengths) {
             if ((newcontent[counter] == '\\') and ((newcontent[counter + 1] == ';') or (newcontent[counter + 1] == ':'))) {
@@ -96,8 +98,6 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
             }
             if (newcontent[counter] == ';') {
                 decodedList.add(temp)
-                println(temp)
-                print(counter)
                 counter += 1
                 temp = ""
 

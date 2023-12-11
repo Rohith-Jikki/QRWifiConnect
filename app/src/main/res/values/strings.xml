@@ -12,4 +12,6 @@
     <string name="qr_text_hint">Scan the QR on the device to add</string>
     <string name="connect_frag_hint">Configure your device</string>
     <string name="device_title">Device Name</string>
+    <string name="ssid_title">WIFI SSID</string>
+    <string name="pass_title">Wifi Password</string>
 </resources>
