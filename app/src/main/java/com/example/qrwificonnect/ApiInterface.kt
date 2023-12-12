@@ -9,13 +9,13 @@ import retrofit2.http.POST
 interface ApiInterface {
 
     @FormUrlEncoded
-    @Headers("Content-Type:application/json")
-    @POST("/L")
-    fun turnOff(@Field("DeviceName")DeviceName:String, @Field("SSID")SSID:String, @Field("Password")Password:String): Call<Device>
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @POST("/H")
+    fun turnOn(@Field("DEVN")DEVN:String, @Field("WFID")SSID:String, @Field("PASS")PASS:String): Call<Device>
 
     @FormUrlEncoded
-    @Headers("Content-Type:application/json")
-    @POST("/H")
-    fun turnOn(@Field("DeviceName")DeviceName:String, @Field("SSID")SSID:String, @Field("Password")Password:String): Call<Device>
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @POST("/L")
+    fun turnOff(@Field("DEVN")DEVN:String, @Field("WFID")SSID:String, @Field("PASS")PASS:String): Call<Device>
 
 }

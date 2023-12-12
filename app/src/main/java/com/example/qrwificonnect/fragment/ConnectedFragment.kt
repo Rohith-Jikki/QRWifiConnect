@@ -83,10 +83,6 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
             override fun onResponse(call: Call<Device>, response: Response<Device>) {
                 if(response.body() != null) {
                     Toast.makeText(requireContext(), "Received", Toast.LENGTH_SHORT).show()
-                    Log.d("onResponse", response.code().toString())
-                    Log.d("Device Name", response.body()!!.DeviceName)
-                    Log.d("SSID", response.body()!!.SSID)
-                    Log.d("Password", response.body()!!.Password)
                 }
                 else{
                     Toast.makeText(requireContext(), "Received empty", Toast.LENGTH_SHORT).show()
@@ -112,10 +108,6 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
             override fun onResponse(call: Call<Device>, response: Response<Device>) {
                 if(response.body() != null) {
                     Toast.makeText(requireContext(), "Received", Toast.LENGTH_SHORT).show()
-                    Log.d("onResponse", response.code().toString())
-                    Log.d("Device Name", response.body()!!.DeviceName)
-                    Log.d("SSID", response.body()!!.SSID)
-                    Log.d("Password", response.body()!!.Password)
                 }
                 else{
                     Toast.makeText(requireContext(), "Received empty", Toast.LENGTH_SHORT).show()
