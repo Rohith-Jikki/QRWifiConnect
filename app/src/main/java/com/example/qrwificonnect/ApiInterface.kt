@@ -1,21 +1,19 @@
 package com.example.qrwificonnect
 
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface ApiInterface {
 
-    @FormUrlEncoded
-    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @Headers("Content-Type:application/json; charset=UTF-8")
     @POST("/H")
-    fun turnOn(@Field("DEVN")DEVN:String, @Field("WFID")SSID:String, @Field("PASS")PASS:String): Call<Device>
+    fun turnOn(@Body device:Device): Call<Device>
 
-    @FormUrlEncoded
-    @Headers("Content-Type: application/x-www-form-urlencoded")
+
+    @Headers("Content-Type:application/json; charset=UTF-8")
     @POST("/L")
-    fun turnOff(@Field("DEVN")DEVN:String, @Field("WFID")SSID:String, @Field("PASS")PASS:String): Call<Device>
+    fun turnOff(@Body device: Device): Call<Device>
 
 }

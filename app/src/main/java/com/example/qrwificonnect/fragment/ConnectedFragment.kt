@@ -78,11 +78,16 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
 
     private fun sendApiRequestOn(deviceName:String){
         val apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface::class.java)
-        val call: Call<Device> = apiInterface.turnOn(deviceName, args.argSsid, args.argPassword)
+        val device = Device(DEVN = deviceName, WFID = args.argSsid, PASS = args.argPassword)
+        val call: Call<Device> = apiInterface.turnOn(device)
         call.enqueue(object: Callback<Device>{
             override fun onResponse(call: Call<Device>, response: Response<Device>) {
                 if(response.body() != null) {
                     Toast.makeText(requireContext(), "Received", Toast.LENGTH_SHORT).show()
+                    Log.d("response",response.raw().toString())
+                    Log.d("response", response.body()!!.DEVN)
+                    Log.d("response", response.body()!!.WFID)
+                    Log.d("response", response.body()!!.PASS)
                 }
                 else{
                     Toast.makeText(requireContext(), "Received empty", Toast.LENGTH_SHORT).show()
@@ -103,7 +108,8 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
     }
     private fun sendApiRequestOff(deviceName:String){
         val apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface::class.java)
-        val call: Call<Device> = apiInterface.turnOff(deviceName, args.argSsid, args.argPassword)
+        val device = Device(deviceName, args.argSsid, args.argPassword)
+        val call: Call<Device> = apiInterface.turnOff(device)
         call.enqueue(object: Callback<Device>{
             override fun onResponse(call: Call<Device>, response: Response<Device>) {
                 if(response.body() != null) {
@@ -153,10 +159,13 @@ class ConnectedFragment : Fragment(R.layout.fragment_connected) {
                 if (!intent.action.equals(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)) {
                     return
                 }
+                else{
+                    Toast.makeText(requireContext(), "Connected", Toast.LENGTH_SHORT).show()
+                }
+
             }
         }
         requireActivity().applicationContext.registerReceiver(broadcastReceiver, intentFilter)
-
 
 //        connectManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 //        connectManager.requestNetwork(request, object : ConnectivityManager.NetworkCallback() {
